@@ -17,18 +17,19 @@ miro.onReady(async () => {
               }
               
               const nearestWidgets = await findNearestWidgets(widgets[0]);
+              const widget = widgets[0];
               
               const upClick = nearestWidgets.next === false ? false : async (widgets) => {
                 const uwidgets = await findNearestWidgets(nearestWidgets.next)
                 if (uwidgets.next !== false) {
-                  await miro.board.figma.moveFront(widgets[0], uwidgets.next);
+                  await miro.board.figma.moveFront(widget, uwidgets.next);
                 }
               }
               
               const downClick = nearestWidgets.prev === false ? false : async (widgets) => {
                 const dwidgets = await findNearestWidgets(nearestWidgets.prev)
                 if (dwidgets.prev !== false) {
-                  await miro.board.figma.moveBack(widgets[0], dwidgets.prev);
+                  await miro.board.figma.moveBack(widget, dwidgets.prev);
                 }
               }
               
@@ -53,6 +54,7 @@ async function findNearestWidgets(widget){
   }
   let rect = boundsToRect(widget.bounds);
   let intersectedWidgets = await miro.board.widgets.__getIntersectedObjects(rect);
+  intersectedWidgets = await miro.board.figma.sortWidgetsByZIndex(intersectedWidgets);
   for (var i = 0; i < intersectedWidgets.length; i++) {
     var iter = intersectedWidgets[i];
     if (iter.id === widget.id){
