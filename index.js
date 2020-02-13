@@ -25,9 +25,7 @@ miro.onReady(async () => {
                 if (uwidgets.next !== false) {
                   await miro.board.figma.moveFront(widget, uwidgets.next);
                 }
-                console.log(uwidgets);
-                console.log(nearestWidgets);
-                if (uwidgets.next !== nearestWidgets.next || uwidgets.prev !== nearestWidgets.prev){
+                if (nearestWidgets.prev === false){
                   await miro.board.selection.clear();
                   await miro.board.selection.selectWidgets(widget)
                 }
@@ -38,9 +36,7 @@ miro.onReady(async () => {
                 if (dwidgets.prev !== false) {
                   await miro.board.figma.moveBack(widget, dwidgets.prev);
                 }
-                console.log(dwidgets);
-                console.log(nearestWidgets);
-                if (dwidgets.next !== nearestWidgets.next || dwidgets.prev !== nearestWidgets.prev){
+                if (nearestWidgets.next === false){
                   await miro.board.selection.clear();
                   await miro.board.selection.selectWidgets(widget)
                 }
