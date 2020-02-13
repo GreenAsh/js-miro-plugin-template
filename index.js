@@ -24,10 +24,9 @@ miro.onReady(async () => {
                 const uwidgets = await findNearestWidgets(widget)
                 if (uwidgets.next !== false) {
                   await miro.board.figma.moveFront(widget, uwidgets.next);
-                }
-                if (nearestWidgets.prev === false){
-                  await miro.board.selection.clear();
-                  await miro.board.selection.selectWidgets(widget)
+                  if (nearestWidgets.prev === false) {
+                    await reselect(widget)
+                  }
                 }
               }
               
@@ -35,10 +34,9 @@ miro.onReady(async () => {
                 const dwidgets = await findNearestWidgets(widget)
                 if (dwidgets.prev !== false) {
                   await miro.board.figma.moveBack(widget, dwidgets.prev);
-                }
-                if (nearestWidgets.next === false){
-                  await miro.board.selection.clear();
-                  await miro.board.selection.selectWidgets(widget)
+                  if (nearestWidgets.next === false){
+                    await reselect(widget)
+                  }
                 }
               }
               
@@ -83,4 +81,13 @@ function boundsToRect(bounds){
     width: bounds.width,
     height: bounds.height
   }
+}
+
+async function reselect(widget){
+    if (!widget) {
+        return
+    }
+    console.log('reselect');
+    await miro.board.selection.clear();
+    await miro.board.selection.selectWidgets(widget)
 }
