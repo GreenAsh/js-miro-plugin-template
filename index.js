@@ -12,7 +12,7 @@ miro.onReady(async () => {
       
         extensionPoints: {
             getWidgetMenuItems: async (widgets) => {
-              if (widgets && !widgets.length && widgets.length !== 1){
+              if (!widgets || !widgets.length || widgets.length !== 1){
                 return [];
               }
               
