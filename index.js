@@ -8,7 +8,7 @@ miro.onReady(async () => {
         return;
     }
   
-    console.log(await miro.board.widgets.__getIntersectedObjects(rect));
+    console.log(await miro.board.widgets.__getIntersectedObjects({}));
 
     await miro.initialize({
       
