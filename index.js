@@ -12,16 +12,13 @@ miro.onReady(async () => {
       
         extensionPoints: {
             getWidgetMenuItems: async (widgets) => {
-              if (!widgets.length && widgets.length !== 1){
+              if (widgets && !widgets.length && widgets.length !== 1){
                 return [];
               }
               
               const nearestWidgets = await findNearestWidgets(widgets[0]);
               const upClick = nearestWidgets.next === false ? false : async (widgets) => {
-                if (!widgets.length && widgets.length !== 1){
-                  return [];
-                }
-                const uwidgets = await findNearestWidgets(widgets[0])
+                const uwidgets = await findNearestWidgets(nearestWidgets.next)
                 if (uwidgets.next !== false) {
                   await miro.board.figma.moveFront(widgets[0], uwidgets.next);
                 }
@@ -30,7 +27,7 @@ miro.onReady(async () => {
                 if (!widgets.length && widgets.length !== 1){
                   return [];
                 }
-                const dwidgets = await findNearestWidgets(widgets[0])
+                const dwidgets = await findNearestWidgets(nearestWidgets.prev)
                 if (dwidgets.prev !== false) {
                   await miro.board.figma.moveBack(widgets[0], dwidgets.prev);
                 }
