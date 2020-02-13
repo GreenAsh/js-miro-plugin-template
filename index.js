@@ -11,20 +11,67 @@ miro.onReady(async () => {
     await miro.initialize({
         extensionPoints: {
             getWidgetMenuItems: async (widgets) => {
+              if (!widgets.length && widgets.length !== 1){
+                return [];
+              }
+              
+              const widgets = await findNearestWidgets(widgets[0]);
+              const upClick = widgets.next === false ? false : async (widgets) => {
+                if (!widgets.length && widgets.length !== 1){
+                  return [];
+                }
+                const widgets = await findNearestWidgets(widgets[0])
+                if (widgets.next !== false) {
+                  miro.board.figma.moveFront(widgets[0], widgets.next);
+                }
+              }
+              const downClick = widgets.prev === false ? false : async (widgets) => {
+                if (!widgets.length && widgets.length !== 1){
+                  return [];
+                }
+                const widgets = await findNearestWidgets(widgets[0])
+                if (widgets.prev !== false) {
+                  miro.board.figma.moveBack(widgets[0], widgets.prev);
+                }
+              }
                 return [{
                     tooltip: 'Up',
                     svgIcon: up_icon,
-                    onClick: async (widgets) => {
-                        console.log('up')
-                    }
+                    onClick: upClick
                 }, {
                     tooltip: 'Down',
                     svgIcon: down_icon,
-                    onClick: async (widgets) => {
-                        console.log('down')
-                    }
+                    onClick: downClick
                 }];
             }
         }
     })
 });
+
+async function findNearestWidgets(widget){
+  const defaultResult = { prev: false, next: false }
+  if (!widget.bounds){
+    return defaultResult;
+  }
+  var rect = boundsToRect(widget.bounds);
+  var intersectedWidgets = await miro.board.widgets.__getIntersectedObjects(rect)
+  for (var i = 0; i < intersectedWidgets.length; i++) {
+    var iter = intersectedWidgets[i];
+    if (iter.id === widget.id){
+      return {
+        prev: i > 0 ? intersectedWidgets[i - 1] : false,
+        next: i + 1 < intersectedWidgets.length ? intersectedWidgets[i + 1] : false
+      }
+    }
+  }
+  return defaultResult;
+}
+
+async function boundsToRect(bounds){
+  return {
+    x: bounds.left,
+    y: bounds.top,
+    width: bounds.width,
+    height: bounds.height
+  }
+}
