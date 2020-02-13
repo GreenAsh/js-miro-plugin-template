@@ -24,17 +24,19 @@ miro.onReady(async () => {
                 const uwidgets = await findNearestWidgets(widget)
                 if (uwidgets.next !== false) {
                   await miro.board.figma.moveFront(widget, uwidgets.next);
-                  if (nearestWidgets.prev === false) {
+                  if (nearestWidgets.prev === false || uwidgets.futureNext === false) {
                     await reselect(widget)
                   }
                 }
+                
+                
               }
               
               const downClick = async (widgets) => {
                 const dwidgets = await findNearestWidgets(widget)
                 if (dwidgets.prev !== false) {
                   await miro.board.figma.moveBack(widget, dwidgets.prev);
-                  if (nearestWidgets.next === false){
+                  if (nearestWidgets.next === false || dwidgets.futurePrev === false){
                     await reselect(widget)
                   }
                 }
@@ -66,8 +68,10 @@ async function findNearestWidgets(widget){
     var iter = intersectedWidgets[i];
     if (iter.id === widget.id){
       return {
+        futurePrev: i - 1 > 0 ? intersectedWidgets[i - 2] : false,
         prev: i > 0 ? intersectedWidgets[i - 1] : false,
-        next: i + 1 < intersectedWidgets.length ? intersectedWidgets[i + 1] : false
+        next: i + 1 < intersectedWidgets.length ? intersectedWidgets[i + 1] : false,
+        futureNext: i + 2 < intersectedWidgets.length ? intersectedWidgets[i + 2] : false
       }
     }
   }
