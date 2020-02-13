@@ -7,8 +7,6 @@ miro.onReady(async () => {
     if (!authorized) {
         return;
     }
-  
-    console.log(await miro.board.widgets.__getIntersectedObjects({}));
 
     await miro.initialize({
       
@@ -70,7 +68,7 @@ async function findNearestWidgets(widget){
   return defaultResult;
 }
 
-async function boundsToRect(bounds){
+function boundsToRect(bounds){
   return {
     x: bounds.left,
     y: bounds.top,
