@@ -15,13 +15,13 @@ miro.onReady(async () => {
                     tooltip: 'Up',
                     svgIcon: up_icon,
                     onClick: async (widgets) => {
-                        consol.log('up')
+                        console.log('up')
                     }
                 }, {
                     tooltip: 'Down',
                     svgIcon: down_icon,
                     onClick: async (widgets) => {
-                        consol.log('down')
+                        console.log('down')
                     }
                 }];
             }
