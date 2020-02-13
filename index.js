@@ -15,18 +15,16 @@ miro.onReady(async () => {
               if (!widgets || !widgets.length || widgets.length !== 1){
                 return [];
               }
-              
-              const nearestWidgets = await findNearestWidgets(widgets[0]);
               const widget = widgets[0];
               
-              const upClick = nearestWidgets.next === false ? false : async (widgets) => {
+              const upClick = async (widgets) => {
                 const uwidgets = await findNearestWidgets(widget)
                 if (uwidgets.next !== false) {
                   await miro.board.figma.moveFront(widget, uwidgets.next);
                 }
               }
               
-              const downClick = nearestWidgets.prev === false ? false : async (widgets) => {
+              const downClick = async (widgets) => {
                 const dwidgets = await findNearestWidgets(widget)
                 if (dwidgets.prev !== false) {
                   await miro.board.figma.moveBack(widget, dwidgets.prev);
