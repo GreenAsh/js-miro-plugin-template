@@ -56,8 +56,8 @@ async function findNearestWidgets(widget){
   if (!widget.bounds){
     return defaultResult;
   }
-  var rect = boundsToRect(widget.bounds);
-  var intersectedWidgets = await miro.board.widgets.__getIntersectedObjects(rect)
+  let rect = boundsToRect(widget.bounds);
+  let intersectedWidgets = await miro.board.widgets.__getIntersectedObjects(rect);
   for (var i = 0; i < intersectedWidgets.length; i++) {
     var iter = intersectedWidgets[i];
     if (iter.id === widget.id){
