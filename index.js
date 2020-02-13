@@ -7,8 +7,11 @@ miro.onReady(async () => {
     if (!authorized) {
         return;
     }
+  
+    console.log(await miro.board.widgets.__getIntersectedObjects(rect));
 
     await miro.initialize({
+      
         extensionPoints: {
             getWidgetMenuItems: async (widgets) => {
               if (!widgets.length && widgets.length !== 1){
