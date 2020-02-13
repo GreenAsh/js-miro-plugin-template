@@ -25,12 +25,20 @@ miro.onReady(async () => {
                 if (uwidgets.next !== false) {
                   await miro.board.figma.moveFront(widget, uwidgets.next);
                 }
+                if (uwidgets.next !== nearestWidgets.next || uwidgets.prev !== nearestWidgets.prev){
+                  await miro.board.selection.clear();
+                  await miro.board.selection.selectWidgets(widget)
+                }
               }
               
               const downClick = async (widgets) => {
                 const dwidgets = await findNearestWidgets(widget)
                 if (dwidgets.prev !== false) {
                   await miro.board.figma.moveBack(widget, dwidgets.prev);
+                }
+                if (dwidgets.next !== nearestWidgets.next || dwidgets.prev !== nearestWidgets.prev){
+                  await miro.board.selection.clear();
+                  await miro.board.selection.selectWidgets(widget)
                 }
               }
               
