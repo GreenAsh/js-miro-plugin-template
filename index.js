@@ -12,11 +12,6 @@ miro.onReady(async () => {
         return;
     }
 
-    const canEditWidgets = await hasPermission('EDIT_CONTENT');
-    if (!canEditWidgets) {
-        return;
-    }
-
     await miro.initialize({
         extensionPoints: {
             getWidgetMenuItems: async (widgets) => {
