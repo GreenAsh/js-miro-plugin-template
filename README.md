@@ -1,1 +1,1 @@
-# miro-widget-upndown
+# js-miro-plugin-template
